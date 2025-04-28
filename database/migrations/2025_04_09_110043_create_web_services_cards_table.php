@@ -16,7 +16,9 @@ return new class extends Migration
       $table->string('title');
       $table->text('description');
       $table->string('icon'); 
+      $table->string('icon_alt');
       $table->string('image'); 
+      $table->string('image_alt');
       $table->timestamps();
     });
   }

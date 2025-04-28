@@ -53,7 +53,7 @@
       <input type="file" name="image" id="image" required
         class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
       @if (!empty($expertise->image))
-      <img src="{{ $expertise->image }}" alt="{{ $expertise->alt ?? '' }}" class="mt-2 w-40 rounded shadow">
+      <img src="{{ config('app.url') . '/storage' . '/' .$expertise->image }}" alt="{{ $expertise->alt ?? '' }}" class="mt-2 w-40 rounded shadow">
       @endif
     </div>
 
@@ -102,7 +102,7 @@
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-2 text-gray-700">{{ $card->id }}</td>
           <td class="px-4 py-2">
-            <img src="{{ $card->icon }}" alt="{{ $card->alt }}" class="w-12 h-12 rounded object-contain border">
+            <img src="{{ config('app.url') . '/storage' . '/' .$card->icon }}" alt="{{ $card->alt }}" class="w-12 h-12 rounded object-contain border">
           </td>
           <td class="px-4 py-2 text-gray-900 font-medium">{{ $card->title }}</td>
           <td class="px-4 py-2 text-gray-700 truncate max-w-0 whitespace-nowrap overflow-hidden">

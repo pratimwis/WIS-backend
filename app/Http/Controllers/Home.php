@@ -29,11 +29,18 @@ class Home extends Controller
 {
 
   //************* Banner Section ********************
+  public function homeview(){
+    $bannerSecData = BannerSection::latest()->first();
+    $carouselItems = CarouselItem::all();
+    return view("pages.home", compact('bannerSecData', 'carouselItems'));
+
+  }
 
   public function CreateBannerSection()
   {
     $bannerSecData = BannerSection::latest()->first();
-    return view("DashboardSection.HomeSection.BannerSection.CreateBannerSec", compact('bannerSecData'));
+    $carouselItems = CarouselItem::all();
+    return view("DashboardSection.HomeSection.BannerSection.CreateBannerSec", compact('bannerSecData','carouselItems'));
   }
 
   public function getBannerSecData()
@@ -45,35 +52,35 @@ class Home extends Controller
   public function storeBanner(Request $request)
   {
     $validatedData = $request->validate([
-      'titleParts' => 'required|string',
-      'description' => 'required|string',
-      'buttonText' => 'required|string',
-      'backgroundImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'title' => 'required|string',
+        'blinkingText' => 'required|string',
+        'description' => 'required|string',
+        'buttonText' => 'required|string',
+        'backgroundImage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'imageAlt' => 'required|string|max:255',
     ]);
 
-    // Find the existing banner (assuming there should only be one record)
+    // Handle blinkingText conversion
+    $validatedData['blinkingText'] = array_map('trim', explode(',', $validatedData['blinkingText']));
+
+    // Find the existing banner
     $banner = BannerSection::first();
 
     // Handle file upload
     if ($request->hasFile('backgroundImage')) {
-      $path = $request->file('backgroundImage')->store('banner_images', 'public');
-      $validatedData['backgroundImage'] = $path;
+        $path = $request->file('backgroundImage')->store('banner_images', 'public');
+        $validatedData['backgroundImage'] = $path;
     }
 
     if ($banner) {
-      // Update existing banner
-      $banner->update($validatedData);
-      return redirect(route('banner.create-banner-section'))->with("success", "Update Successfully.");
+        // Update existing banner
+        $banner->update($validatedData);
+        return redirect(route('banner.create-banner-section'))->with("success", "Updated Successfully.");
     } else {
-      // Create new banner if no record exists
-      $banner = BannerSection::create($validatedData);
-      return redirect(route('banner.create-banner-section'))->with("success", "New Record Created Successfully.");
+        // Create new banner
+        $banner = BannerSection::create($validatedData);
+        return redirect(route('banner.create-banner-section'))->with("success", "Created Successfully.");
     }
-  }
-  public function CarouselItems()
-  {
-    $carouselItems = CarouselItem::all();
-    return view('DashboardSection.HomeSection.BannerSection.CarouselItems', compact('carouselItems'));
   }
 
   // Fetch all Carousel Items
@@ -307,7 +314,6 @@ class Home extends Controller
   public function postExpertiseSliderData(Request $request)
   {
     $validatedData = $request->validate([
-      'src' => 'required|image|mimes:jpeg,png,jpg,gif|max:8000',
       'label' => 'required|string',
       'description' => 'required|string',
       'backgroundColor' => 'required|string',
@@ -317,14 +323,7 @@ class Home extends Controller
       'teamMembers' => 'required|array',
     ]);
 
-
-    if ($request->hasFile('src')) {
-      $path = $request->file('src')->store('expertiseSliderImages', 'public');
-      $validatedData['src'] = $path; // update to use path instead of file object
-    }
-
     ExpertiseSliderItem::create([
-      'src' => $validatedData['src'],
       'label' => $validatedData['label'],
       'description' => $validatedData['description'],
       'background_color' => $validatedData['backgroundColor'],
@@ -336,8 +335,8 @@ class Home extends Controller
 
     return response()->json([
       'message' => 'Slider item saved successfully',
-      'image_url' => asset('storage/' . $validatedData['src']) // Optional: return image URL
-    ]);
+      'data' => $validatedData,
+    ], 201);
   }
 
   //Get the sliders data
@@ -361,7 +360,6 @@ class Home extends Controller
   public function updateExpertiseSlidersData(Request $request, $id)
   {
     $validatedData = $request->validate([
-      'src' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:6000',
       'label' => 'required|string',
       'description' => 'required|string',
       'backgroundColor' => 'required|string',
@@ -375,13 +373,6 @@ class Home extends Controller
     if (!$expertiseData) {
       return response()->json(['message' => 'Expertise data not found.'], 404);
     }
-
-    // Update the image if a new file is provided.
-    if ($request->hasFile('src')) {
-      $path = $request->file('src')->store('expertiseSliderImages', 'public');
-      $expertiseData->src = $path;
-    }
-
     // Map the validated data to the corresponding database column names.
     $expertiseData->label = $validatedData['label'];
     $expertiseData->description = $validatedData['description'];
@@ -405,8 +396,8 @@ class Home extends Controller
   }
   public function UpdateOurClientViewCard($id)
   {
-    $slider = ClientLogo::find($id);
-    return view('DashboardSection.HomeSection.ClientSlider.form', compact('slider'));
+    $sliders = ClientLogo::find($id);
+    return view('DashboardSection.HomeSection.ClientSlider.form', compact('sliders'));
   }
   public function NewClientCard()
   {
@@ -417,12 +408,14 @@ class Home extends Controller
   {
     $validated = $request->validate([
       'image_path' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+      'alt' => 'required|string|max:255',
     ]);
 
     if ($request->hasFile('image_path')) {
-      $path = $request->file('image_path')->store('benchmark_images', 'public');
-      $validated['image_path'] = asset('storage/' . $path);
+      $path = $request->file('image_path')->store('client', 'public');
+      $validated['image_path'] = $path;
     }
+ 
 
     $points = ClientLogo::create($validated);
 
@@ -450,6 +443,7 @@ class Home extends Controller
     try {
       $validated = $request->validate([
         'image_path' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048',
+        'alt' => 'required|string|max:255',
       ]);
 
       $client = ClientLogo::find($id);
@@ -462,8 +456,8 @@ class Home extends Controller
 
       // Check if a new image is uploaded
       if ($request->hasFile('image_path')) {
-        $path = $request->file('image_path')->store('benchmark_images', 'public');
-        $validated['image_path'] = asset('storage/' . $path);
+        $path = $request->file('image_path')->store('client_logo', 'public');
+        $validated['image_path'] = $path;
       }
 
       $client->update($validated);
@@ -535,23 +529,25 @@ class Home extends Controller
         'title' => 'required|string',
         'description' => 'required|string',
         'icon' => 'required|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+        'icon_alt' => 'required|string',
         'image' => 'required|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+        'image_alt' => 'required|string',
       ]);
 
       // Store icon image
       $iconPath = $request->file('icon')->store('home-service-section/icons', 'public');
-      $validated['icon'] = asset('storage/' . $iconPath);
+      $validated['icon'] = $iconPath;
 
       // Store main image
       $imagePath = $request->file('image')->store('home-service-section/images', 'public');
-      $validated['image'] = asset('storage/' . $imagePath);
+      $validated['image'] =$imagePath;
 
       // Save to database
       $servicedata = WebServicesCards::create($validated);
 
       // Return success response
       return response()->json([
-        'message' => 'Step by Step Guidelines card saved successfully.',
+        'message' => 'Service card saved successfully.',
         'data' => $servicedata,
       ], 201);
     } catch (\Exception $e) {
@@ -596,19 +592,21 @@ class Home extends Controller
       'title' => 'sometimes|required|string',
       'description' => 'sometimes|required|string',
       'icon' => 'sometimes|mimes:jpeg,png,jpg,webp,gif,svg|max:2048',
+      'icon_alt' => 'sometimes|required|string',
       'image' => 'sometimes|mimes:jpeg,png,jpg,webp,gif,svg|max:2048',
+      'image_alt' => 'sometimes|required|string',
     ]);
 
     // Update icon if present
     if ($request->hasFile('icon')) {
       $iconPath = $request->file('icon')->store('home-service-section/icons', 'public');
-      $validated['icon'] = asset('storage/' . $iconPath);
+      $validated['icon'] =  $iconPath;
     }
 
     // Update image if present
     if ($request->hasFile('image')) {
       $imagePath = $request->file('image')->store('home-service-section/images', 'public');
-      $validated['image'] = asset('storage/' . $imagePath);
+      $validated['image'] =  $imagePath;
     }
 
     $card->update($validated);
@@ -682,7 +680,7 @@ class Home extends Controller
       ]);
 
       $imagePath = $request->file('image')->store('expertise', 'public');
-      $validated['image'] = asset('storage/' . $imagePath);
+      $validated['image'] = $imagePath;
 
       $expertise = Expertise::first();
 
@@ -716,7 +714,7 @@ class Home extends Controller
 
       // Store icon image
       $iconPath = $request->file('icon')->store('expertise/icons', 'public');
-      $validated['icon'] = asset('storage/' . $iconPath);
+      $validated['icon'] = $iconPath;
 
       // Save to database
       $expertiseCard = ExpertiseCard::create($validated);
@@ -764,7 +762,7 @@ class Home extends Controller
 
     if ($request->hasFile('icon')) {
       $iconPath = $request->file('icon')->store('expertise/icons', 'public');
-      $validated['icon'] = asset('storage/' . $iconPath);
+      $validated['icon'] = $iconPath;
     }
 
     $card->update($validated);
@@ -851,10 +849,10 @@ class Home extends Controller
 
       // Store image
       $imagePath = $request->file('image')->store('we-work-with/images', 'public');
-      $validated['image'] = asset('storage/' . $imagePath);
+      $validated['image'] =  $imagePath;
 
       $imagePath = $request->file('icon')->store('we-work-with/icons', 'public');
-      $validated['icon'] = asset('storage/' . $imagePath);
+      $validated['icon'] = $imagePath;
       // Save as JSON
      // $validated['features'] = json_encode($validated['features']);
 
@@ -902,17 +900,19 @@ class Home extends Controller
         'features' => 'required|array|min:1',
         'features.*' => 'string',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'image_alt' => 'nullable|string',
         'icon' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'icon_alt' => 'nullable|string',
       ]);
 
       if ($request->hasFile('image')) {
-        $validated['image'] = asset('storage/' . $request->file('image')->store('we-work-with/images', 'public'));
+        $validated['image'] =$request->file('image')->store('we-work-with/images', 'public');
       } else {
         $validated['image'] = $weWorkWith->image;
       }
 
       if ($request->hasFile('icon')) {
-        $validated['icon'] = asset('storage/' . $request->file('icon')->store('we-work-with/icons', 'public'));
+        $validated['icon'] = $request->file('icon')->store('we-work-with/icons', 'public');
       } else {
         $validated['icon'] = $weWorkWith->icon;
       }
@@ -984,13 +984,14 @@ class Home extends Controller
         'title' => 'required|string',
         'description' => 'required|string',
         'image' => 'nullable|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+        'alt' => 'required|string',
       ]);
 
       $titleDes = BookAppointment::first();
 
       if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('book_appointment', 'public');
-        $validated['image'] = asset('storage/' . $imagePath);
+        $validated['image'] = $imagePath;
       } else {
         $validated['image'] = $titleDes->image ?? null;
       }
@@ -1031,13 +1032,14 @@ class Home extends Controller
         'title' => 'required|string',
         'description' => 'required|string',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'alt' => 'required|string',
       ]);
 
       $titleDes = CtaSection::first();
 
       if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('ctasection', 'public');
-        $validated['image'] = asset('storage/' . $imagePath);
+        $validated['image'] =  $imagePath;
       } else {
         $validated['image'] = $titleDes->image ?? null;
       }

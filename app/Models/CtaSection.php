@@ -12,6 +12,7 @@ class CtaSection extends Model
   protected $fillable = [
     'title',
     'description',
-    'image'
+    'image',
+    'alt',
   ];
 }

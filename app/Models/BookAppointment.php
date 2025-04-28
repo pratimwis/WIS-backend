@@ -12,6 +12,7 @@ class BookAppointment extends Model
   protected $fillable = [
     'title',
     'description',
-    'image'
+    'image',
+    'alt'
   ];
 }

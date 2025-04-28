@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Company Admin Dashboard</title>
+  <title>Web Idea Solution Dashboard</title>
   <meta name="description" content="Professional admin dashboard for managing site content" />
   <!-- Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
@@ -16,101 +16,64 @@
 
 <body class="bg-gray-100 min-h-screen flex">
   <!-- Sidebar -->
-  <aside class="w-64 bg-blue-900 text-white flex flex-col fixed h-full z-10 shadow-lg">
+  <aside class="w-72 bg-white text-black flex flex-col fixed h-full z-10 shadow-xl rounded-2xl">
     <!-- Logo -->
-    <div class="p-6 border-b border-blue-700 flex flex-col items-center space-x-3">
-      <img src="{{ asset('storage/WIS-logo/wis_log.webp') }}" alt="Company Logo" class="h-8 w-auto">
-      <h2 class="text-sm font-bold pl-16">Admin Panel</h2>
+    <div class="p-6 border-b border-blue-700 flex flex-col items-center space-x-3 text-left" >
+      <img src="{{ config('app.url') . '/storage//WIS-logo/wis_log.webp'  }}" alt="Wis Logo" class="h-8 w-auto">
+      
+      <h2 class="text-sm font-bold pl-16 ">Admin Panel</h2>
     </div>
     <!-- Navigation -->
     <nav class="flex-1 overflow-y-auto p-4 space-y-4">
-      <h3 class="text-blue-300 uppercase tracking-wider text-md font-semibold items-center">Home</h3>
-      <ul class="space-y-2">
-        <li>
-          <a href="/home/banner/create-banner-section" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-image w-5"></i>
-            <span class="ml-3">Banner Section</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/banner/carouselitems" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-photo-film w-5"></i>
-            <span class="ml-3">Carousel Items</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/whoweare/create" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-users w-5"></i>
-            <span class="ml-3">Who We Are</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/expertise/create-expertise" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-lightbulb w-5"></i>
-            <span class="ml-3">Our Expertise</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/services" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-briefcase w-5"></i>
-            <span class="ml-3">Our Services</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/appointment" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-calendar-check w-5"></i>
-            <span class="ml-3">Book Appointment</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/industries/create" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-industry w-5"></i>
-            <span class="ml-3">Our Industries</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/we-work-with/create" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-handshake-alt w-5"></i>
-            <span class="ml-3">We Work With</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/client-slider/view" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-handshake-alt w-5"></i>
-            <span class="ml-3">Client slider</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/consultation/consultant-data" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-user-tie w-5"></i>
-            <span class="ml-3">Consultant Data</span>
-          </a>
-        </li>
-        <li>
-          <a href="/home/consultation/enquiry-table" class="flex items-center p-2 rounded hover:bg-blue-800 transition">
-            <i class="fa-solid fa-table w-5"></i>
-            <span class="ml-3">Enquiry Table</span>
-          </a>
-        </li>
-      </ul>
 
-      <h3 class="text-blue-300 uppercase tracking-wider text-xs font-semibold mt-6">Services</h3>
-      <ul class="space-y-2">
-
-      </ul>
+  <!-- Menu -->
+  <div class="mt-8 space-y-2">
+    <!-- Dashboard -->
+    <a href="/dashboard/view" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 transition
+      {{ request()->is('dashboard/view') ? 'bg-gradient-to-tr from-pink-500 to-purple-500 text-white shadow-md' : 'hover:bg-gray-100' }}">
+      <div class="text-xl text-purple-600">🏠</div>
+      <span class="text-gray-700 font-medium">Dashboard</span>
+    </a>
+  
+    <!-- Home -->
+    <a href="/dashboard/home" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 transition  
+    {{ request()->is('dashboard/home') ? 'bg-gradient-to-tr from-pink-500 to-purple-500 text-white shadow-md' : 'hover:bg-gray-100' }}">
+      <div class="text-xl text-purple-600">👤</div>
+      <span class="text-gray-700 font-medium">Home</span>
+    </a>
+  
+    <!-- Service page -->
+    <a href="#" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 transition">
+      <div class="text-xl text-purple-600">🧑‍💼</div>
+      <span class="text-gray-700 font-medium">Services</span>
+    </a>
+  
+    <!-- About Us -->
+    <a href="#" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 transition">
+      <div class="text-xl text-purple-600">ℹ️</div>
+      <span class="text-gray-700 font-medium">About Us</span>
+    </a>
+  
+    <!-- Our Location -->
+    <a href="#" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 transition">
+      <div class="text-xl text-purple-600">📍</div>
+      <span class="text-gray-700 font-medium">Our Location</span>
+    </a>
+  </div>
+   
     </nav>
     <!-- Footer -->
     <div class="p-4 text-center text-sm border-t border-blue-700 opacity-75">
-      &copy; {{ date('Y') }} Company Name. All Rights Reserved.
+      &copy; {{ date('Y') }} Web Idea Solution. All Rights Reserved.
     </div>
   </aside>
 
   <!-- Main Content -->
-  <div class="flex-1 ml-64 p-6">
+  <div class="flex-1 ml-72 p-6">
     <!-- Header -->
     <header class="sticky top-0 bg-white shadow-sm rounded-lg p-4 mb-6 flex justify-between items-center z-10">
       <div class="flex items-center space-x-3">
-        <img src="{{ asset('storage/WIS-logo/wis_log.webp') }}" alt="Company Logo" class="h-8 w-auto">
+        <img src="{{ config('app.url') . '/storage//WIS-logo/wis_log.webp'  }}" alt="Wis Logo" class="h-8 w-auto">
         <h1 class="text-2xl font-semibold text-gray-800">Welcome, {{ Auth::user()->name }}</h1>
       </div>
       <div class="flex items-center space-x-4">

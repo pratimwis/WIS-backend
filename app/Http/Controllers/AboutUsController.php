@@ -36,11 +36,9 @@ class AboutUsController extends Controller
     } else {
       $data = AboutUsStatSection::create($validated);
     }
-    return response()->json([
-      'message' => 'About Us stat data saved successfully.',
-      'data' => $data
-    ]);
-
+    return redirect()
+    ->back()
+    ->with('success', 'About us stats section updated successfully.');
     }
     public function getAboutStatData(){
     $statData = AboutUsStatSection::all();
@@ -243,11 +241,12 @@ class AboutUsController extends Controller
         'title' => 'required|string',
         'description' => 'nullable|string',
         'icon' => 'required|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+        'alt'=>'required|string',
       ]);
 
       $validated['description'] = $validated['description'] ?? '';
       $path = $request->file('icon')->store('industries', 'public');
-      $validated['icon'] = asset('storage/' . $path);
+      $validated['icon'] = $path;
 
       $data = IndustriesTi::create($validated);
 

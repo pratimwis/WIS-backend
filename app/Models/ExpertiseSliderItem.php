@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ExpertiseSliderItem extends Model
 {
   protected $fillable = [
-    'src',
     'label',
     'description',
     'background_color',

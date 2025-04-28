@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('client_logos', function (Blueprint $table) {
       $table->id();
       $table->string('image_path'); // path to logo image
+      $table->string('alt'); // alt text for the logo
       $table->timestamps();
     });
     }

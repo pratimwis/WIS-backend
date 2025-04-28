@@ -7,8 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class BannerSection extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  protected $fillable = ['titleParts', 'description', 'buttonText', 'backgroundImage'];
+    protected $fillable = [
+        'title',
+        'blinkingText',
+        'description',
+        'buttonText',
+        'backgroundImage',
+        'imageAlt'
+    ];
 
+    protected $casts = [
+        'blinkingText' => 'array'
+    ];
 }

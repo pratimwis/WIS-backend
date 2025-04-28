@@ -13,7 +13,6 @@ return new class extends Migration
   {
     Schema::create('expertise_slider_items', function (Blueprint $table) {
       $table->id();
-      $table->string('src');
       $table->string('label');
       $table->text('description');
       $table->string('background_color');

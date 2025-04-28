@@ -79,9 +79,11 @@
         <tr>
           <th class="px-4 py-3">ID</th>
           <th class="px-4 py-3">Icon</th>
+          <th class="px-4 py-3">Icon Alt</th>
           <th class="px-4 py-3">Title</th>
           <th class="px-4 py-3">Description</th>
           <th class="px-4 py-3">Image</th>
+          <th class="px-4 py-3">Image Alt</th>
           <th class="px-4 py-3">Created At</th>
           <th class="px-4 py-3">Updated At</th>
           <th class="px-4 py-3 text-right">Actions</th>
@@ -92,15 +94,17 @@
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-2 text-gray-700">{{ $card->id }}</td>
           <td class="px-4 py-2">
-            <img src="{{ $card->icon }}" alt="cardImage" class="w-12 h-12 rounded object-contain border">
+            <img src="{{ config('app.url') . '/storage' . '/' .$card->icon }}" alt="cardImage" class="w-12 h-12 rounded object-contain border">
           </td>
+          <td class="px-4 py-2 text-gray-500">{{ $card->icon_alt }}</td>
           <td class="px-4 py-2 text-gray-900 font-medium">{{ $card->title }}</td>
           <td class="px-4 py-2 text-gray-700 truncate max-w-xs whitespace-nowrap overflow-hidden">
             {{ $card->description }}
           </td>
           <td class="px-4 py-2">
-            <img src="{{ $card->image }}" alt="cardImage" class="w-12 h-12 rounded object-contain border">
+            <img src="{{ config('app.url') . '/storage' . '/' .$card->image }}" alt="cardImage" class="w-12 h-12 rounded object-contain border">
           </td>
+          <td class="px-4 py-2 text-gray-500">{{ $card->image_alt }}</td>
           <td class="px-4 py-2 text-gray-500">{{ \Carbon\Carbon::parse($card->created_at)->format('d M Y') }}</td>
           <td class="px-4 py-2 text-gray-500">{{ \Carbon\Carbon::parse($card->updated_at)->format('d M Y') }}</td>
           <td class="px-4 py-2 text-right space-x-2">

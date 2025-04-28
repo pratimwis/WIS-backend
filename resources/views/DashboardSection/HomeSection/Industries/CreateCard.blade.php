@@ -19,9 +19,15 @@
       <label class="block font-semibold">Icon Image</label>
       <input type="file" name="icon" class="w-full border p-2 rounded" accept="image/*" required>
       @if (!empty($card->icon))
-      <img src="{{$card->icon??''}}" alt="tcs-icon" class="h-12 w-20">
+      <img src="{{config('app.url') . '/storage' . '/' .$card->icon??''}}" alt="tcs-icon" class="h-12 w-20">
       @endif
     </div>
+    <div>
+      <label for="alt" class="block text-sm font-medium text-gray-700 mb-1">Image Alt </label>
+      <input type="text" name="alt" id="alt" value="{{$card->alt??''}}" required
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-green-500 focus:border-green-500">
+    </div> 
+
 
 
     <button type="submit" class="btn-secondary py-2 px-6 rounded-lg text-white bg-green-600">

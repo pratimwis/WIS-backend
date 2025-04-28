@@ -51,7 +51,7 @@
       <input type="file" name="image" class="w-full border p-2 rounded" accept="image/*">
       @if (!empty($card->image))
       <div class="mt-2">
-        <img src="{{ $card->image }}" alt="{{ $card->image_alt }}" class="h-12 w-20">
+        <img src="{{ config('app.url') . '/storage' . '/' .$card->image }}" alt="{{ $card->image_alt }}" class="h-12 w-20">
       </div>
       @endif
     </div>
@@ -66,7 +66,7 @@
       <input type="file" name="icon" class="w-full border p-2 rounded" accept="image/*">
       @if (!empty($card->icon))
       <div class="mt-2">
-        <img src="{{ $card->icon }}" alt="icon_alt" class="h-12 w-20">
+        <img src="{{ config('app.url') . '/storage' . '/' .$card->icon }}" alt="icon_alt" class="h-12 w-20">
       </div>
       @endif
     </div>

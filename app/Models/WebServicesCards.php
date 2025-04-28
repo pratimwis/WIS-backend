@@ -13,6 +13,8 @@ class WebServicesCards extends Model
     'title',
     'description',
     'icon',
+    'icon_alt',
     'image',
+    'image_alt',
   ];
 }

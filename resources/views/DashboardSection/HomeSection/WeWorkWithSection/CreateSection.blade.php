@@ -71,11 +71,11 @@
             </td>
             {{-- Image --}}
             <td class="px-4 py-3">
-              <img src="{{ $card->image }}" alt="{{ $card->image_alt }}" class="w-10 h-10 object-contain border rounded">
+              <img src="{{ config('app.url') . '/storage' . '/' .$card->image }}" alt="{{ $card->image_alt }}" class="w-10 h-10 object-contain border rounded">
             </td>
             {{-- Icon --}}
             <td class="px-4 py-3">
-              <img src="{{ $card->icon }}" alt="{{ $card->icon_alt }}" class="w-10 h-10 object-contain border rounded">
+              <img src="{{ config('app.url') . '/storage' . '/' .$card->icon }}" alt="{{ $card->icon_alt }}" class="w-10 h-10 object-contain border rounded">
             </td>
 
 

@@ -19,7 +19,7 @@
           <tr>
             <th class="px-4 py-3">ID</th>
             <th class="px-4 py-3">Image</th>
-            <th class="px-4 py-3">Alt Text (Path)</th>
+            <th class="px-4 py-3">Alt</th>
             <th class="px-4 py-3">Created</th>
             <th class="px-4 py-3">Updated</th>
             <th class="px-4 py-3 text-right">Actions</th>
@@ -30,9 +30,9 @@
           <tr class="hover:bg-gray-50">
             <td class="px-4 py-3 text-gray-700">{{ $image->id }}</td>
             <td class="px-4 py-3">
-              <img src="{{ $image->image_path }}" alt="Slider Image {{ $image->id }}" class="w-20 h-auto rounded border shadow-sm">
+              <img src="{{ config('app.url') . '/storage' . '/' .$image->image_path }}" alt="Slider Image {{ $image->id }}" class="w-20 h-auto rounded border shadow-sm">
             </td>
-            <td class="px-4 py-3 text-gray-700 break-words max-w-xs">{{ $image->image_path }}</td>
+            <td class="px-4 py-3 text-gray-700 break-words max-w-xs">{{ $image->alt }}</td>
             <td class="px-4 py-3 text-gray-500">{{ \Carbon\Carbon::parse($image->created_at)->format('d M Y') }}</td>
             <td class="px-4 py-3 text-gray-500">{{ \Carbon\Carbon::parse($image->updated_at)->format('d M Y') }}</td>
 

@@ -34,7 +34,7 @@ class AuthManager extends Controller
         Auth::logout();
         return redirect(route('login'))->with("error", "Invalid user type.");
       }
-      return redirect()->intended(route('dashboard'));
+      return redirect()->intended(route('dashboardview'));
     }
     return redirect(route(name: 'login'))->with("error", "Login details are not valid");
   }

@@ -14,6 +14,7 @@ return new class extends Migration
     Schema::create('industries_tis', function (Blueprint $table) {
       $table->id();
       $table->string('icon');
+      $table->string('alt')->nullable();
       $table->string('title');
       $table->text('description');
       $table->timestamps();

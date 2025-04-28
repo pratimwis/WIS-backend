@@ -31,10 +31,15 @@
       @if(!empty($data->image))
       <div class="mt-3">
         <p class="text-sm mb-1">Current Image:</p>
-        <img src="{{ $data->image }}" alt="Current" class="w-48 rounded shadow">
+        <img src="{{ config('app.url') . '/storage' . '/' .$data->image }}" alt="Current" class="w-48 rounded shadow">
       </div>
       @endif
     </div>
+    <div>
+      <label for="alt" class="block text-sm font-medium text-gray-700 mb-1">Image Alt </label>
+      <input type="text" name="alt" id="alt" value="{{$data->alt??''}}" required
+        class="w-full border border-gray-300 rounded-lg px-4 py-2 shadow-sm focus:ring-green-500 focus:border-green-500">
+    </div> 
 
     <button type="submit" class="btn-secondary font-semibold py-3 px-6 rounded-lg bg-blue-600 text-white">
       Save Appointment Content

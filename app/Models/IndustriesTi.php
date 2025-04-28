@@ -13,5 +13,6 @@ class IndustriesTi extends Model
     'icon',
     'title',
     'description',
+    'alt',
   ];
 }

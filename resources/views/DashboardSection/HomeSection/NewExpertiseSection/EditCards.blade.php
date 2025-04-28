@@ -38,7 +38,7 @@
       <input type="file" name="icon" id="icon" required
         class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
       @if (!empty($card->icon))
-      <img src="{{ $card->icon }}" alt="{{ $card->alt ?? '' }}" class="mt-2 w-40 rounded shadow">
+      <img src="{{ config('app.url') . '/storage' . '/' .$card->icon }}" alt="{{ $card->alt ?? '' }}" class="mt-2 w-40 rounded shadow">
       @endif
     </div>
 

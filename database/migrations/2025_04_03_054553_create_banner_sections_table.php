@@ -13,10 +13,12 @@ return new class extends Migration
   {
     Schema::create('banner_sections', function (Blueprint $table) {
       $table->id();
-      $table->string('titleParts');
+      $table->string('title');
+      $table->json('blinkingText');
       $table->string('description');
       $table->string('buttonText');
       $table->string('backgroundImage');
+      $table->string('imageAlt')->nullable(); // Added imageAlt field
       $table->timestamps();
     });
   }
@@ -26,6 +28,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('banner-section-data');
+    Schema::dropIfExists('banner_sections');
   }
 };
