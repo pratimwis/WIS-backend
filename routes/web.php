@@ -50,7 +50,7 @@ Route::middleware('auth')->controller(Home::class)->group(function () {
 
 
   //Our Expertise routes
-  Route::get('/dashboard/home/expertise/create-expertise', 'ViewExpertiseData')->name('expertise.create-expertise-section');
+  Route::get('/dashboard/home/expertise/create-expertise', 'ViewExpertiseData')->name('expertise.view-expertise-section');
   Route::get('/home/expertise/cards/edit/{id}', 'EditExpertiseCard')->name('expertise.edit-expertise-section');
   Route::get('/home/expertise/cards/create', 'CreateExpertiseCard')->name('expertise.create-expertise-section');
   //Services Routes
